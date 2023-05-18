@@ -7,7 +7,7 @@ Es tracta d'una aplicació per permetre el fitxatge d'assessors del CEFIRE, per 
 Per a clonar el projecte podem utilitzar el següent comandament:
 
 ```
-git clone --recurse-submodules https://github.com/alviboi/projecte_ceedcv
+git clone --recurse-submodules https://github.com/alviboi/cefirehorari_valencia
 ```
 
 > Has de tenir instal·lat els **paquets docker docker-compose**:
