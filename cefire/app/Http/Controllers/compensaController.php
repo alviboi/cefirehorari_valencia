@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\compensa;
 use App\Models\control;
+use App\Models\deutesmes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -80,8 +81,47 @@ class compensaController extends Controller
         $dat->fi = $request->fi;
         $dat->user_id = auth()->id();
         $dat->motiu = $request->motiu;
+
+
+
+        try {
+            //code...
+            $borsahores = deutesmes::where('user_id', "=", auth()->id())->first();
+            if ($borsahores->minuts === null) {
+                abort(403, "Sembla que no existeix la teua borsa d'hores encara");
+            }
+            //abort(403, $borsahores);
+        } catch (\Throwable $th) {
+            //throw $th;
+            abort(403, "Sembla que no existeix la teua borsa d'hores");
+        }
+
+
+        $duration = $this->calcula_diferencia($request->inici, $request->fi);
+        $calcul = ($borsahores->minuts) - $duration;
+        if ($calcul < 0) {
+            abort(403, "No tens prou minuts en la borsa d'hores");
+        }
+        $borsahores->minuts = $calcul;
         $dat->save();
+
+        $borsahores->save();
+
         return $dat->toArray();
+    }
+
+    public function calcula_diferencia($inici, $fin)
+    {
+        $ini = explode(":", $inici);
+        $fi = explode(":", $fin);
+
+        $inici_a = $ini[0] * 60 + $ini[1];
+        $fi_a = $fi[0] * 60 + $fi[1];
+
+        $diferencia = $fi_a - $inici_a;
+
+        return $diferencia;
+
     }
 
 
@@ -107,6 +147,22 @@ class compensaController extends Controller
     public function destroy(compensa $compensa)
     {
         //
+        $data_hui = date("Y-m-d");
+        $data = date($compensa->data);
+        if ($data_hui > $data && !(auth()->user()->Perfil == 1)) {
+            abort(403, "Aquesta compensació ja l'has gaudida. No pots borrar-la");
+        }
+
+        $borsahores = deutesmes::where('user_id', "=", auth()->id())->first();
+        if (!$borsahores && !(auth()->user()->Perfil == 1)) {
+            abort(403, "Estàs tractant de fer alguna cosa no permesa");
+        }
+        $duration = $this->calcula_diferencia($compensa->inici, $compensa->fi);
+        $calcul = ($borsahores->minuts) + $duration;
+
+        $borsahores->minuts = $calcul;
+
+
         
         if($compensa->inici == "09:00:00"){
             $m='matí';
@@ -127,8 +183,11 @@ class compensaController extends Controller
 
         $emailJob2 = (new SendAviscompensacio($compensa->user['email'], $datos2))->delay(Carbon::now()->addSeconds(120));
         dispatch($emailJob2);
-
+        $borsahores->save();
         $compensa->delete();
+
+
+        
     }
 
     public function compensacionsnovalidades()

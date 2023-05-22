@@ -25,6 +25,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command("calcula:mesdeute")->monthly(); //Run the task on the first day of every month at 00:00
+
     }
 
     /**

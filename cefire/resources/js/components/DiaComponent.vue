@@ -6,6 +6,7 @@
       <!-- COLUMNA LATERAL DESPLEGABLE -->
       <div class="lateral_esquerre flex-container">
         <button
+          :disabled="vac_oficials == 1? true : false"
           data-toggle="tooltip"
           data-placement="bottom"
           title="CEFIRE"
@@ -15,6 +16,7 @@
           <i class="fa-solid fa-user-check"></i>
         </button>
         <button
+          :disabled="vac_oficials == 1? true : false"
           data-toggle="tooltip"
           data-placement="bottom"
           title="CURS"
@@ -24,6 +26,7 @@
           <i class="fas fa-chalkboard-teacher"></i>
         </button>
         <button
+          :disabled="vac_oficials == 1? true : false"
           data-toggle="tooltip"
           data-placement="bottom"
           title="GUARDIA"
@@ -33,6 +36,7 @@
           <i class="fas fa-dog"></i>
         </button>
         <button
+          :disabled="vac_oficials == 1? true : false"
           data-toggle-second="tooltip"
           data-placement="bottom"
           title="COMPENSA"
@@ -42,6 +46,7 @@
           <i class="fas fa-umbrella-beach"></i>
         </button>
         <button
+          :disabled="vac_oficials == 1? true : false"
           data-toggle-second="tooltip"
           data-placement="bottom"
           title="VISITA"
@@ -51,6 +56,7 @@
           <i class="fas fa-school"></i>
         </button>
         <button
+          :disabled="vac_oficials == 1? true : false"
           data-toggle-second="tooltip"
           data-placement="bottom"
           title="PERMIS"
@@ -62,7 +68,7 @@
       </div>
       <!-- COLUMNA LATERAL DESPLEGABLE -->
       <!-- ESPAI ON ES POSEN LES ETIQUETES -->
-      <div id="principal" class="principal">
+      <div id="principal" class="principal" :style="vac_oficials == 1? 'background: #ededf4;' : ''">
         <transition-group name="list-complete" tag="div">
           <div
             v-for="cef in cefire"
@@ -101,7 +107,7 @@
             class="s-visita list-complete-item"
             :key="'vis' + vis.id"
             data-uk-tooltip="pos: right; animation: true; offset: 12;"
-            :title="vis.centre"
+            :title="vis.inici+'-'+vis.fi+': '+vis.centre"
           >
             <span @click="borra_par('visita', vis.id)" class="cerrar" />
           </div>
@@ -147,7 +153,14 @@
               class="uk-form-large data-uk-input uk-width-1-1"
               type="text"
               placeholder="Curs a realitzar"
+              required
             />
+            <div class="uk-margin">                        
+              <label>Hora: </label>
+                  <vue-timepicker :minute-interval="5" v-model="inici" :hour-range="[[8, 23]]" hide-disabled-hours></vue-timepicker>
+              <span> a </span>
+                  <vue-timepicker :minute-interval="5" v-model="fi" :hour-range="[[8, 23]]" hide-disabled-hours></vue-timepicker> 
+              </div>
           </div>
         </fieldset>
         <p class="uk-text-right">
@@ -209,7 +222,14 @@
               class="uk-form-large data-uk-input uk-width-1-1"
               type="text"
               placeholder="Visita a realitzar"
+              required
             />
+            <div class="uk-margin">                        
+              <label>Hora: </label>
+                  <vue-timepicker :minute-interval="5" v-model="inici" :hour-range="[[8, 23]]" hide-disabled-hours></vue-timepicker>
+              <span> a </span>
+                  <vue-timepicker :minute-interval="5" v-model="fi" :hour-range="[[8, 23]]" hide-disabled-hours></vue-timepicker> 
+          </div>
           </div>
         </fieldset>
         <p class="uk-text-right">
@@ -240,6 +260,12 @@
               type="text"
               placeholder="Motiu del permís"
             />
+            <div class="uk-margin">                        
+              <label>Hora: </label>
+                  <vue-timepicker :minute-interval="1" v-model="inici" :hour-range="[[8, 13],[15, 19]]" hide-disabled-hours></vue-timepicker>
+              <span> a </span>
+                  <vue-timepicker :minute-interval="1" v-model="fi" :hour-range="[[8, 13],[15, 19]]"></vue-timepicker> 
+              </div>
             <div :id="'upload'+this._uid" class="js-upload uk-placeholder uk-text-center">
                 <div>
                         {{avis_pujada}}
@@ -280,7 +306,8 @@
 /**
  * Component d'un únic dia que controla totes les accions que es realitzen sobre el mateix dia
  */
-
+import VueTimepicker from 'vue2-timepicker'
+import 'vue2-timepicker/dist/VueTimepicker.css'
 export default {
   data() {
     return {
@@ -308,13 +335,19 @@ export default {
             'Diumenge',
     ],
     nom_dia: "",
+    vac_oficials: 0,
     dia_mes: 0,
     arxiu_pujat: '',
     avis_pujada: "",
-    act: 1
+    act: 1,
+    inici: "",
+    fi: ""
     };
   },
   props: ['mati','data'],
+    components: {
+        VueTimepicker        
+  },
   methods: {
     // Mètode per a descarregar el arxiu, es reb com un objecte binari de grans dimensions (blob) per a reconstrueix i permet descarregar-se. D'aquesta
     // manera l'arxiu no té cap enllaç per a poder-se descarregar.
@@ -440,6 +473,7 @@ export default {
           this["guardia"] = res.data["guardia"];
           this["incidencies"] = res.data["incidencies"];
           this["permis"] = res.data["permis"];
+          this["vac_oficials"] = res.data["vac_oficials"];
            // this.get_de_bd("cefire");
     // this.get_de_bd();
     // this.get_de_bd();
@@ -544,19 +578,26 @@ export default {
         inici="16:00:00";
         fi="20:00:00";
       }
-      if (desti=="permis"){
+      if (desti=="compensa"){
         var params = {
             data: data_db(this.data),
             inici: inici,
             fi: fi,
+            motiu: this[varNom],
+        };
+      } else if (desti=="permis"){
+        var params = {
+            data: data_db(this.data),
+            inici: this.inici,
+            fi: this.fi,
             motiu: this[varNom],
             arxiu: this.arxiu_pujat
         };
       } else {
         var params = {
             data: data_db(this.data),
-            inici: inici,
-            fi: fi,
+            inici: this.inici,
+            fi: this.fi,
             motiu: this[varNom]
         };
       }

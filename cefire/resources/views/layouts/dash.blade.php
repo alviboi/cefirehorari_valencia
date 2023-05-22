@@ -36,6 +36,9 @@
 										<li class="uk-nav-header">EL TEU COMPTE</li>
                                         <li><a href="#" @click="view = 'centresmeus'"><span data-uk-icon="icon: info"></span> Els meus centres</a></li>
                                         @if (Auth::user()->Perfil == 1)
+										<li><a class="uk-navbar-dropdown-close" href="#"
+											@click="view = 'afegirvacances'"><span
+												data-uk-icon="icon: calendar"></span> Dies de vacances</a></li>
                                         <li><a href="#" @click="view = 'controlass'"><span data-uk-icon="icon: refresh"></span> Control d'Assessors</a></li>
                                         <li><a href="#" @click="view = 'configuracio'"><span data-uk-icon="icon: settings"></span> Configuració</a></li>
                                         @endif
@@ -100,7 +103,9 @@
 				    <div class="uk-dropdown user-drop" data-uk-dropdown="mode: click; pos: bottom-center; animation: uk-animation-slide-bottom-small; duration: 150">
 				    	<ul class="uk-nav uk-dropdown-nav uk-text-left">
                                 <li><a href="#" @click="showEdita = true"><span data-uk-icon="icon: refresh"></span> Edita perfil</a></li>
-                                @if (Auth::user()->Perfil == 1)
+								<li><a href="#" @click="showavisdiasetmana = true"><span data-uk-icon="icon: calendar"></span> Dia de guardia</a></li>
+
+								@if (Auth::user()->Perfil == 1)
                                 <li><a href="#" @click="view = 'configuracio'"><span data-uk-icon="icon: settings"></span> Configuració</a></li>
                                 @endif
 								<li class="uk-nav-divider"></li>
@@ -133,6 +138,8 @@
 							@if (Auth::user()->Perfil == 1)
                             <li><a href="#" @click="view='llistatpermisos'">Llistat permisos</a></li>
 							<li><a href="#" @click="view='incidencies'">Incidències</a></li>
+							<li><a class="uk-navbar-dropdown-close" href="#"
+								@click="view='fitxatgessuma'">Suma fitxatges mes</a></li>
 							@endif
 						</ul>
 					</li>
@@ -144,17 +151,14 @@
         <div id="content" data-uk-height-viewport="expand: true">
 			<div class="uk-container uk-container-expand">
 				<div class="uk-grid uk-grid-medium" data-uk-grid>
-
+					
                     <!-- panel -->
                     <div class="uk-width-1-1">
                         <transition name="component-fade" mode="out-in">
                             <component v-bind:is="view" ></component>
                         </transition>
-					<div>
-                        @include('modals')
                     </div>
-
-                    </div>
+					@include('modals')
 
 				</div>
 			</div>
@@ -172,5 +176,10 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
         <script src="{{ asset('js/home.js') }}" defer></script>
 
+
+
 	</body>
 </html>
+<div>
+                        
+</div>

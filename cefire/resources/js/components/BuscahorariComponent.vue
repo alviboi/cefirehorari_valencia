@@ -193,7 +193,7 @@ export default {
                 if (toti == 'inici') {
                     text = ele['inici']+'-'+ele['fi'];
                 } else {
-                    text = ele[toti];
+                    text = ele['inici']+'-'+ele['fi']+'-'+ele[toti];
                 }
                 // Es crea l'element ja formatat que anirà al calendari i s'afegix al array
                 let i = {

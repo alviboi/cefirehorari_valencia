@@ -9,6 +9,7 @@ require('./home.js');
 
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
+import VCalendar from "v-calendar";
 
 
 
@@ -107,14 +108,34 @@ Vue.component('centres-component', require('./components/Centres/CentresComponen
 Vue.component('buscahorari-component', require('./components/BuscahorariComponent.vue').default);
 Vue.component('line-component', require('./components/Reports/LinegrafComponent.vue').default);
 Vue.component('pie-component', require('./components/Reports/PiegrafComponent.vue').default);
+Vue.component(
+    "afegirvacances-component",
+    require("./components/Vacances/AfegirVacancesComponent.vue").default
+);
+Vue.component(
+    "fitxatgessuma-component",
+    require("./components/FitxatgessumaComponent.vue").default
+);
+
+Vue.component(
+    "escriuavissetmana-component",
+    require("./components/avisos/EscriuiavissetmanaComponent.vue").default
+);
+
 //Vue.component('llistatcompensacions-component', require('./components/LlistatCompensacions.vue').default);
 
-
+Vue.use(VCalendar, {
+    componentPrefix: "v",
+    screens: {
+        tablet: "576px",
+        este2: "1293px",
+        este1: "1621px",
+    }, // Use <vc-calendar /> instead of <v-calendar />
+});
 
 
 
 //L'error més comú que tens quan modifiques una cosa d'ací, no està funcionant npm run watch, o compila a npm run dev
-
 
 
 
@@ -143,6 +164,7 @@ const app = new Vue({
     data: {
         showMissatge: false,
         showModal: false,
+        showavisdiasetmana: false,
         showModalInc: false,
         // calendar: false,
         // horari: false,
@@ -198,7 +220,13 @@ const app = new Vue({
         },
         'compensacions': {
             template: '<div><llistatcompensacions-component /></div>',
-        }
+        },
+        'afegirvacances': {
+            template: "<div><afegirvacances-component /></div>",
+        },
+        'fitxatgessuma': {
+            template: "<div><fitxatgessuma-component /></div>",
+        },
 
 
       },
@@ -226,6 +254,10 @@ const app = new Vue({
             // alert('hola');
             this.showModalInc=false;
         },
+        tanca_avisdiasetmana() {
+            // alert('hola');
+            this.showavisdiasetmana=false;
+        },
         log() {
             axios.get("logat_id")
             .then(res => {
@@ -239,7 +271,11 @@ const app = new Vue({
         ajuda_f() {
             this.ajuda=this.view;
             this.view='ajuda';
-        }
+        },
+        obre_avisdiasetmana() {
+            // alert('hola');
+            this.showavisdiasetmana=true;
+        },
     },
     created() {
         // Creem els elements que es van a escoltar pel bus
@@ -247,6 +283,9 @@ const app = new Vue({
         this.$eventBus.$on('tanca-incidencia', this.tanca_incidencia);
         this.$eventBus.$on('tanca-missatge', this.tanca_missatge);
         this.$eventBus.$on('tanca-edita', this.tanca_edita);
+        this.$eventBus.$on('tanca-avisdiasetmana', this.tanca_avisdiasetmana);
+        this.$eventBus.$on('obre-avisdiasetmana', this.obre_avisdiasetmana);
+
         this.log();
 
     },
@@ -255,7 +294,7 @@ const app = new Vue({
         this.$eventBus.$off('tanca-missatge');
         this.$eventBus.$off('tanca-edita');
         this.$eventBus.$off('tanca-incidencia');
-
+        this.$eventBus.$off('tanca-avisdiasetmana');
     }
 
 });

@@ -58,6 +58,9 @@ Route::get('/user_visita/{num}/{any}/{mes}', 'UserController@get_visita')->middl
 Route::get('/user_all/{de}/{fins}', 'UserController@get_all')->middleware('auth');
 Route::get('/user_get', 'UserController@get_user')->middleware('auth');
 Route::post('/get_usuaris_ldap', 'UserController@get_usuaris_ldap')->middleware('auth');
+Route::get('/user_statistics', 'UserController@get_statistics')->middleware('auth');
+Route::get('/ultims_dies_estadistica', 'cefireController@ultims_dies_estadistica')->middleware('auth');
+
 
 Route::prefix('complet')->group(function () {
     Route::get('/cefire/{any}/{mes}', 'cefireController@get_data_index')->middleware('auth');
@@ -79,6 +82,9 @@ Route::get('/dia_incidencies/{dia}/{mati}', 'UserController@dia_incidencies')->n
 Route::get('/dia_tot/{dia}/{mati}', 'UserController@dia_tot')->name('dia_tot')->middleware('auth');
 Route::get('/guardia/totes/{mes}/{any}', 'guardiaController@get_data_index2')->name('guardia_totes')->middleware('auth');
 Route::get('/guardia/totes_les_guardies', 'guardiaController@get_numero_de_guardies')->name('guardia_totals')->middleware('auth');
+Route::get('/tots_els_dies_mes/{any}/{mes}', 'UserController@tots_els_dies_mes')->name('tots_els_dies_mes')->middleware('can:esAdmin');
+
+
 
 Route::get('/contar/{desde}/{fins}', 'cefireController@contar_cefires')->name('guardia_totes_conta')->middleware('auth');
 
@@ -93,7 +99,17 @@ Route::post('permis_sense_arxiu','permisController@permis_sense_arxiu')->middlew
 
 Route::post('compensacions_no_validades','compensaController@compensacionsnovalidades')->middleware('can:esAdmin');
 Route::post('validacompensacio','compensaController@validacompensacio')->middleware('can:esAdmin');
+Route::post('solapaments','UserController@detecta_solapaments')->middleware('can:esAdmin');
+Route::post('solapaments_tots','UserController@detecta_solapaments_tots')->middleware('can:esAdmin');
 
+Route::post('cefire_fitxa_oblit', 'cefireController@cefire_fitxa_oblit')->middleware('can:esAdmin'); //NOU
+Route::get('/usuaris_oblit_fitxatge', 'cefireController@usuaris_oblit_fitxatge')->name('usuaris_oblit_fitxatge')->middleware('can:esAdmin');
+
+Route::post('afegix_minuts_admin', 'DeutesmesController@afegix_minuts_admin')->middleware('can:esAdmin'); //NOU
+
+Route::get('dia_setmana','avisosController@avis_dia_setmana')->middleware('auth');
+
+Route::post('/avisdiasetmana', 'UserController@avisdiasetmana')->middleware('auth');
 
 
 Route::resource('control', ControlController::class)->middleware('can:esAdmin');
@@ -112,7 +128,9 @@ Route::group(['middleware' => 'auth'], function() {
         'user' => UserController::class,
         'visita' => visitaController::class,
         'avisos' => avisosController::class,
-        'incidencies' => IncidenciesController::class
+        'incidencies' => IncidenciesController::class,
+        'vacancesoficials' => VacancesOficialsController::class,
+
         ]);
 });
 

@@ -32,6 +32,7 @@
         "laravel-echo": "^1.10.0",
         "pdfmake": "^0.2.6",
         "pusher-js": "^7.0.2",
+        "v-calendar": "^2.4.1",
         "vue-chartjs": "^3.5.1",
         "vue-simple-calendar": "^5.0.0",
         "vue-table-dynamic": "^0.3.3",
@@ -39,6 +40,7 @@
         "vue-uniq-ids": "^1.0.0",
         "vue2-timepicker": "^1.1.6",
         "vuejs": "^3.0.1",
-        "vuejs-datepicker": "^1.6.2"
+        "vuejs-datepicker": "^1.6.2",
+        "vuetimepicker": "^3.0.0"
     }
 }

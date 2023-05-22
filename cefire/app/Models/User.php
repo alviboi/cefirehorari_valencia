@@ -119,5 +119,10 @@ class User extends Authenticatable
     //     $this->attributes['fi'] = $value;
     // }
 
+    public function deutesmes()
+    {
+        return $this->hasMany('App\Models\deutesmes');
+    }
+
 
 }

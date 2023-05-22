@@ -36,7 +36,8 @@ Aques component s'utilitza per a mostrar els avisos
 export default {
     data() {
         return {
-            avisos: []
+            avisos: [],
+            dia_setmana: []
         }
     },
     methods: {
@@ -47,6 +48,20 @@ export default {
             .then(res => {
                 console.log(res);
                 this.avisos=res.data;
+            })
+            .catch(err => {
+                console.error(err);
+            })
+        },
+        get_dia_setmana() {
+            let url="dia_setmana";
+            axios.get(url)
+            .then(res => {
+                console.log(res);
+                this.dia_setmana=res.data;
+                if (res.data['diasetmana'] == 10){
+                    this.$eventBus.$emit("obre-avisdiasetmana");
+                }
             })
             .catch(err => {
                 console.error(err);
@@ -72,10 +87,14 @@ export default {
     },
     mounted() {
         this.get_avisos();
+        this.get_dia_setmana();
+
     },
     created() {
         // Quan es crea un avís es rep un event que crea l'avís per a que es mostre la pantalla actualitzada
         this.$eventBus.$on('avis-enviat', this.get_avisos);
+        
+
     },
     beforeDestroy() {
         this.$eventBus.$off('avis-enviat');

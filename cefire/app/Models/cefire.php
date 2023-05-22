@@ -13,8 +13,8 @@ class cefire extends Model
     use HasFactory;
     // Per a que eloquent ens mostre les dades en format temps per a facilitar el càlcul
     protected $casts = [
-        'inici' => 'datetime',
-        'fi' => 'datetime',
+        // 'inici' => 'datetime',
+        // 'fi' => 'datetime',
     ];
     /**
      * user

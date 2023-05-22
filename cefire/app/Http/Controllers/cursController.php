@@ -87,4 +87,7 @@ class cursController extends Controller
         //
         curs::find($curs)->delete();
     }
+
+    
+
 }

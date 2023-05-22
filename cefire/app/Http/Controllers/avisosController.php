@@ -25,6 +25,14 @@ class avisosController extends Controller
         return $ret;
     }
 
+    public function avis_dia_setmana()
+    {
+        //
+        $ret = ["nom"=>auth()->user()->name,"diasetmana"=>auth()->user()->diaguardia];
+
+        return $ret;
+    }
+
     /**
      * Crea un element del recurs
      *

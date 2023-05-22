@@ -304,7 +304,7 @@ export default {
                 if (toti == 'inici') {
                     text = ele['inici']+'-'+ele['fi'];
                 } else {
-                    text = ele[toti];
+                    text = ele['inici']+'-'+ele['fi']+'-'+ele[toti];
                 }
 
                 let mati = (inici_int>=80000 && inici_int<150000) ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';

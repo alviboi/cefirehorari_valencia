@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use App\Models\Incidencies;
+use App\Jobs\SendIncidenciaResolta;
+use Carbon\Carbon;
 
 
 class IncidenciesController extends Controller
@@ -95,6 +97,25 @@ class IncidenciesController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $inci = Incidencies::where("id", "=", $id)->first();
+        $inci->corregida = $request->estat;
+        $inci->save();
+
+
+        $datos2 = [
+            'nombre' => $inci->user['name'],
+            'data' => date("d/m/Y", strtotime($inci->data)),
+            'incidencia' => $inci->incidencia,
+            'estat' => $inci->corregida ? "Resolta" : "No resolta",
+
+        ];
+
+        $emailJob2 = (new SendIncidenciaResolta($inci->user['email'], $datos2))->delay(Carbon::now()->addSeconds(120));
+        dispatch($emailJob2);
+
+
+
+        return "Canviat estat d'incidència";
     }
 
     /**
