@@ -643,9 +643,6 @@ class UserController extends Controller
             $este['borsa d\'hores'] = 0;
         }
 
-        $este['ainici']=$inici;
-        $este['afi']=$fi;
-
 
         $este['total'] = $este['fitxatge'] + $este['permís'] + $este['compensa'] + $este['visita']/*Es suma perquè les està gaudint d'un excés que ha fet altre mes*/+ $este['curs'];
 
