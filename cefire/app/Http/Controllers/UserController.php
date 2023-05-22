@@ -643,7 +643,8 @@ class UserController extends Controller
             $este['borsa d\'hores'] = 0;
         }
 
-        
+        $este['ainici']=$inici;
+        $este['afi']=$fi;
 
 
         $este['total'] = $este['fitxatge'] + $este['permís'] + $este['compensa'] + $este['visita']/*Es suma perquè les està gaudint d'un excés que ha fet altre mes*/+ $este['curs'];
@@ -694,9 +695,6 @@ class UserController extends Controller
                 if ($dia_setmana == $dia_guardia_user) {
                     $total_mes += 540;
                 } else {        
-                    $dates = $vacances->getWorkingDays($inici, $fi);
-                    $inici = date($any . "-" . $mes . "-01");
-                    $fi = date("Y-m-t", strtotime($inici));
                     if (($value->guardia()->where('data','=',$value2)->count()>0) && ($this->getWeekday($value2)==5)){
                         $total_mes += 360;
                     } else {
