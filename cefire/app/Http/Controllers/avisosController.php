@@ -80,7 +80,7 @@ class avisosController extends Controller
         //
 
         $avis=avisos::find($avisos);
-        if ($avis->id == auth()->id() || auth()->user()->Perfil == 1){
+        if ($avis->user_id == auth()->id() || auth()->user()->Perfil == 1){
             $avis->delete();
             return "Borrat correctament";
         } else {

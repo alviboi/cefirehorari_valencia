@@ -70,7 +70,7 @@
 							<li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" data-uk-icon="icon:  sign-out" title="Eixir" data-uk-tooltip></a></li>
                         <li><a class="uk-navbar-toggle uk-inline" data-uk-toggle data-uk-navbar-toggle-icon href="#offcanvas-nav" title="Missatge rebuts" data-uk-tooltip>
                             @if ($conta > 0)
-                                <span class="uk-badge uk-position-top-right" style="background-color: red; margin-top: 5px;"><b>?</b></span>
+                                <span class="uk-badge uk-position-top-right" style="background-color: red; margin-top: 5px;"><b>{{ $conta }}</b></span>
                             @endif
                         </a></li>
 						</ul>
