@@ -21,9 +21,18 @@
         </Datepicker>
       </div>
       <div class="mig2">
-        <button class="uk-button uk-button-default" @click="change_height">
+
+        <div tabindex="0">
+        <div class="uk-animation-shake uk-animation-reverse">
+                    <button class="uk-button uk-button-default" @click="change_height">
           Estadístiques Mes Actual
         </button>
+        </div>
+    </div>
+
+
+
+
       </div>
       <div class="avant">
         <button

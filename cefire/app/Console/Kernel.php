@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command("calcula:mesdeute")->monthly(); //Run the task on the first day of every month at 00:00
+        //$schedule->command("calcula:mesdeute")->everyMinute(); //Run the task on the first day of every month at 00:00
 
     }
 
