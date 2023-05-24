@@ -661,7 +661,11 @@ export default {
                 }
             }
         );
+    },
+    permisllarg(){
+      this.get_de_bd("permis")
     }
+
   },
   mounted() {
 
@@ -678,9 +682,12 @@ export default {
     this.channel_create();
     this.channel_borra();
     this.$eventBus.$on('incidencia-enviada', this.get_incidencia);
+    this.$eventBus.$on('permisllarg-enviat', this.permisllarg);
+
   },
   beforeDestroy() {
       this.$eventBus.$off('incidencia-enviada');
+      this.$eventBus.$off('permisllarg-enviat');
   },
   computed: {
       // Mostra dia o nit en funció de l'hora

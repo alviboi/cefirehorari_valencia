@@ -166,6 +166,8 @@ const app = new Vue({
         showModal: false,
         showavisdiasetmana: false,
         showModalInc: false,
+        showPermisllarg: false,
+        showCalendariguardies: false,
         // calendar: false,
         // horari: false,
         showEdita: false,
@@ -276,6 +278,15 @@ const app = new Vue({
             // alert('hola');
             this.showavisdiasetmana=true;
         },
+        tanca_permisllarg() {
+            // alert('hola');
+            this.showPermisllarg=false;
+        },
+        tanca_calendariguardies() {
+            // alert('hola');
+            this.showCalendariguardies=false;
+        },
+        
     },
     created() {
         // Creem els elements que es van a escoltar pel bus
@@ -285,6 +296,9 @@ const app = new Vue({
         this.$eventBus.$on('tanca-edita', this.tanca_edita);
         this.$eventBus.$on('tanca-avisdiasetmana', this.tanca_avisdiasetmana);
         this.$eventBus.$on('obre-avisdiasetmana', this.obre_avisdiasetmana);
+        this.$eventBus.$on('tanca-permisllarg', this.tanca_permisllarg);
+        this.$eventBus.$on('tanca-calendariguardies', this.tanca_calendariguardies);
+
 
         this.log();
 
@@ -295,6 +309,9 @@ const app = new Vue({
         this.$eventBus.$off('tanca-edita');
         this.$eventBus.$off('tanca-incidencia');
         this.$eventBus.$off('tanca-avisdiasetmana');
+        this.$eventBus.$off('tanca-permisllarg');
+        this.$eventBus.$off('tanca_calendariguardies');
+
     }
 
 });

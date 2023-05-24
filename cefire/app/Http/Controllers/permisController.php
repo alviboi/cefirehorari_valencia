@@ -141,5 +141,29 @@ class permisController extends Controller
         return $arx;
     }
 
+    public function permisllarg(Request $request){
+        $vac = new VacancesOficialsController();
+        $dates_laborals = $vac->getWorkingDays($request->dia_inici,$request->dia_fi);
+        foreach ($dates_laborals as $key => $value) {
+            # code...
+            $exist = permis::where('user_id','=',auth()->id())->where('data','=',$value)->count();
+            if ($exist>0){
+                abort(413,"En la data ".$value." ja tens un permís. Revisa les dates.");
+            }
+        }
+        foreach ($dates_laborals as $key => $value) {
+            # code...
+            $dat = new permis();
+            $dat->data = $value;
+            $dat->inici = "09:00:00";
+            $dat->fi = "14:00:00";
+            $dat->user_id = auth()->id();
+            $dat->motiu = $request->motiu;
+            $dat->arxiu= $request->arxiu;
+            $dat->save();
+        }
+        return 1;
+    }
+
 
 }

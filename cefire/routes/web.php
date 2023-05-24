@@ -96,6 +96,8 @@ Route::post('upload_permis','permisController@upload')->middleware('auth');
 Route::post('download_permis','permisController@download')->middleware('auth');
 Route::post('permis_desde','permisController@permis_desde')->middleware('can:esAdmin');
 Route::post('permis_sense_arxiu','permisController@permis_sense_arxiu')->middleware('can:esAdmin');
+Route::post('permisllarg','permisController@permisllarg')->middleware('auth');
+
 
 Route::post('compensacions_no_validades','compensaController@compensacionsnovalidades')->middleware('can:esAdmin');
 Route::post('validacompensacio','compensaController@validacompensacio')->middleware('can:esAdmin');

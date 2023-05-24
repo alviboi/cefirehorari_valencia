@@ -35,14 +35,20 @@
 									<ul class="uk-nav uk-navbar-dropdown-nav">
 										<li class="uk-nav-header">EL TEU COMPTE</li>
                                         <li><a href="#" @click="view = 'centresmeus'"><span data-uk-icon="icon: info"></span> Els meus centres</a></li>
-                                        @if (Auth::user()->Perfil == 1)
+										<li><a href="#" @click="showPermisllarg = true"><span data-uk-icon="icon: world"></span> Baixa llarga</a></li>
+										<li><a href="#" @click="showCalendariguardies = true"><span data-uk-icon="icon: bell"></span> Guardies vesprada</a></li>
+
+										
+										<li class="uk-nav-divider"></li>
+										@if (Auth::user()->Perfil == 1)
 										<li><a class="uk-navbar-dropdown-close" href="#"
 											@click="view = 'afegirvacances'"><span
 												data-uk-icon="icon: calendar"></span> Dies de vacances</a></li>
                                         <li><a href="#" @click="view = 'controlass'"><span data-uk-icon="icon: refresh"></span> Control d'Assessors</a></li>
                                         <li><a href="#" @click="view = 'configuracio'"><span data-uk-icon="icon: settings"></span> Configuració</a></li>
                                         @endif
-                                        <li><a href="#" @click="showModal = true"><span data-uk-icon="icon: warning"></span> Escriu Avís</a></li>
+                                        <li class="uk-nav-divider"></li>
+										<li><a href="#" @click="showModal = true"><span data-uk-icon="icon: warning"></span> Escriu Avís</a></li>
 										<li><a href="#" @click="showModalInc = true"><span data-uk-icon="icon: lifesaver"></span> Escriu Incidència</a></li>
 										<li class="uk-nav-divider"></li>
 										<li><a href="#" @click="view = 'personals'"><span data-uk-icon="icon: image"></span> Dades Personals</a></li>
