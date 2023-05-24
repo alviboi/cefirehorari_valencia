@@ -43,6 +43,22 @@ class permisController extends Controller
     public function store(Request $request)
     {
         //
+
+        if (strtotime($request->inici) > strtotime($request->fi)){
+            abort(413,"Mmmm, estàs fent coses molt rares.");
+        }
+
+        $inici_m = strtotime("09:00:00");
+        $fi_m = strtotime("14:00:00");
+        $inici_v = strtotime("16:00:00");
+        $fi_v = strtotime("20:00:00");
+        $inici = strtotime($request->inici.":00");
+        $fi = strtotime($request->fi.":00");
+        //return ($inici > $inici_m && $fi > $fi_m)?"SI":"NO";
+        if (($inici > $inici_m && $fi > $fi_m && $inici<$fi_m) || $inici < $inici_m || ($inici > $fi_m && $inici<$inici_v) || ($fi > $fi_m && $fi < $inici_v) || $fi>$fi_v){
+            abort(413,"El que estàs tractant de fer és il·legal.");
+        }
+
         $dat = new permis();
         $dat->data = $request->data;
         $dat->inici = $request->inici;
@@ -144,6 +160,7 @@ class permisController extends Controller
     public function permisllarg(Request $request){
         $vac = new VacancesOficialsController();
         $dates_laborals = $vac->getWorkingDays($request->dia_inici,$request->dia_fi);
+        
         foreach ($dates_laborals as $key => $value) {
             # code...
             $exist = permis::where('user_id','=',auth()->id())->where('data','=',$value)->count();
@@ -161,9 +178,23 @@ class permisController extends Controller
             $dat->motiu = $request->motiu;
             $dat->arxiu= $request->arxiu;
             $dat->save();
+            if ($this->getWeekday($value) == auth()->user()->dia_guardia){
+                $dat2 = new permis();
+                $dat2->data = $value;
+                $dat2->inici = "16:00:00";
+                $dat2->fi = "20:00:00";
+                $dat2->user_id = auth()->id();
+                $dat2->motiu = $request->motiu;
+                $dat2->arxiu= $request->arxiu;
+                $dat2->save();
+            }
         }
         return 1;
     }
 
+    public function getWeekday($date)
+    {
+        return date('w', strtotime($date));
+    }
 
 }
