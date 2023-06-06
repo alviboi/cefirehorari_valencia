@@ -401,6 +401,8 @@ class UserController extends Controller
         $cefire['compensa'] = User::find(auth()->id())->compensa()->where('data', '=', $dia)->where('fi', $control, '15:00:00')->get();
         $cefire['curs'] = User::find(auth()->id())->curs()->where('data', '=', $dia)->where('fi', $control, '15:00:00')->get();
         $cefire['guardia'] = User::find(auth()->id())->guardia()->where('data', '=', $dia)->where('fi', $control, '15:00:00')->get();
+        $cefire['incidencies'] = User::find(auth()->id())->incidencies()->where('data', '=', $dia)->where('fi', $control, '15:00:00')->get();
+
         $ret2 = User::find(auth()->id())->cefire()->where('data', '=', $dia)->where('fi', $control, '15:00:00')->get();
 
         foreach ($ret2 as $value) {

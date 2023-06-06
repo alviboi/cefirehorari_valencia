@@ -30,7 +30,7 @@ class IncidenciesController extends Controller
         $ret = array();
         $els = Incidencies::whereMonth('data', '=', date($mes))->whereYear('data', '=', date($any))->get();
         foreach ($els as $el) {
-            $item=array("id"=>$el->id, "name"=>$el->user['name'], "data"=>$el->data, "inici"=>$el->inici, "fi"=>$el->fi, "incidencia"=>$el->incidencia);
+            $item=array("id"=>$el->id, "name"=>$el->user['name'], "data"=>$el->data, "inici"=>$el->inici, "fi"=>$el->fi, "incidencia"=>$el->incidencia, "corregida"=>$el->corregida);
             array_push($ret, $item);
         }
         return $ret;
@@ -97,6 +97,7 @@ class IncidenciesController extends Controller
     public function update(Request $request, $id)
     {
         //
+        //abort(403,$request->estat);
         $inci = Incidencies::where("id", "=", $id)->first();
         $inci->corregida = $request->estat;
         $inci->save();
