@@ -98,7 +98,7 @@
             class="s-curs list-complete-item"
             :key="'cur' + cur.id"
             data-uk-tooltip="pos: right; animation: true; offset: 12;"
-            :title="cur.curs"
+            :title="cur.inici+'-'+cur.fi+': '+cur.curs"
           >
             <span @click="borra_par('curs', cur.id)" class="cerrar" />
           </div>
