@@ -393,7 +393,7 @@ class UserController extends Controller
         $ret2 = array();
         $ret3 = array();
         if ($mati == 'm')
-            $control = '<';
+            $control = '<=';
         else
             $control = '>';
         $cefire['permis'] = User::find(auth()->id())->permis()->where('data', '=', $dia)->where('fi', $control, '15:00:00')->get();

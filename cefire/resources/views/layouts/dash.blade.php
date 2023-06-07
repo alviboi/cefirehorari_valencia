@@ -67,7 +67,7 @@
 						</ul>
 					</div>
 					<div class="uk-navbar-right">
-						<ul class="uk-navbar-nav">
+						<ul class="uk-navbar-nav" style="gap: 5px;">
                             <li>
                                 <a href="{{ route('entrada') }}"><span data-uk-icon="icon: home"></span></a>
                             </li>
