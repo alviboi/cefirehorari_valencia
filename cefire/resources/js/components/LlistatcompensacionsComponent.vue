@@ -319,6 +319,24 @@ export default {
           console.error(err);
         });
     },
+        borra_oblidat(id) {
+      let url = "cefire/" + id;
+      for (let index = 0; index < this.oblits.length; index++) {
+        if (this.oblits[index].id == id) {
+          this.oblits.splice(index, 1);
+        }
+      }
+      axios
+        .delete(url)
+        .then((res) => {
+          console.log(res);
+          this.$toast.success("Borrat correctament");
+        })
+        .catch((err) => {
+          console.error(err);
+          this.$toast.error(err.response.data.message);
+        });
+    },
   },
   mounted() {
     this.agafa_compensacions();
