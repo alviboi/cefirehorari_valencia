@@ -86,7 +86,7 @@
             class="s-compensa list-complete-item"
             :key="'com' + com.id"
             data-uk-tooltip="pos: right; animation: true; offset: 12;"
-            :title="com.motiu"
+            :title="com.inici+'-'+com.fi+': '+com.motiu"
           >
             <span @click="borra_par('compensa', com.id)" class="cerrar" />
             <span :class="(com.confirmat!=1) ? 'falta_validar' : ''"></span>
@@ -192,6 +192,12 @@
               type="text"
               placeholder="Motiu pel que compenses"
             />
+            <div class="uk-margin">                        
+              <label>Hora: </label>
+                  <vue-timepicker :minute-interval="5" v-model="inici" :hour-range="[[8, 23]]" hide-disabled-hours></vue-timepicker>
+              <span> a </span>
+                  <vue-timepicker :minute-interval="5" v-model="fi" :hour-range="[[8, 23]]" hide-disabled-hours></vue-timepicker> 
+              </div>
           </div>
         </fieldset>
         <p class="uk-text-right">
@@ -581,8 +587,8 @@ export default {
       if (desti=="compensa"){
         var params = {
             data: data_db(this.data),
-            inici: inici,
-            fi: fi,
+            inici: this.inici,
+            fi: this.fi,
             motiu: this[varNom],
         };
       } else if (desti=="permis"){
