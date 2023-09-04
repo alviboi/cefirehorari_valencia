@@ -48,10 +48,10 @@ class permisController extends Controller
             abort(413,"Mmmm, estàs fent coses molt rares.");
         }
 
-        $inici_m = strtotime("09:00:00");
-        $fi_m = strtotime("14:00:00");
-        $inici_v = strtotime("16:00:00");
-        $fi_v = strtotime("20:00:00");
+        $inici_m = strtotime("07:59:00");
+        $fi_m = strtotime("15:00:00");
+        $inici_v = strtotime("15:00:00");
+        $fi_v = strtotime("21:00:00");
         $inici = strtotime($request->inici.":00");
         $fi = strtotime($request->fi.":00");
         //return ($inici > $inici_m && $fi > $fi_m)?"SI":"NO";

@@ -134,6 +134,7 @@ class cefireController extends Controller
 
             }
         } else {
+            
             $hi_ha=cefire::where('user_id','=',auth()->id())->where('data','=',$request->data)->where('inici','=',$request->inici)->first();
             if ($hi_ha) {
                 //abort(403, "Ja has fitxat el dia de hui");

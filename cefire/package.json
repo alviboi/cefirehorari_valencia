@@ -31,6 +31,7 @@
         "chart.js": "^2.9.4",
         "laravel-echo": "^1.10.0",
         "pdfmake": "^0.2.6",
+        "postcss": "^8.4.29",
         "pusher-js": "^7.0.2",
         "v-calendar": "^2.4.1",
         "vue-chartjs": "^3.5.1",
@@ -41,6 +42,7 @@
         "vue2-timepicker": "^1.1.6",
         "vuejs": "^3.0.1",
         "vuejs-datepicker": "^1.6.2",
-        "vuetimepicker": "^3.0.0"
+        "vuetimepicker": "^3.0.0",
+        "webpack-cli": "^5.1.4"
     }
 }

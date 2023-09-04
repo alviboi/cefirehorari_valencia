@@ -262,9 +262,9 @@
             />
             <div class="uk-margin">                        
               <label>Hora: </label>
-                  <vue-timepicker :minute-interval="1" v-model="inici" :hour-range="[[8, 13],[15, 19]]" hide-disabled-hours></vue-timepicker>
+                  <vue-timepicker :minute-interval="1" v-model="inici" :hour-range="[[8, 14],[15, 20]]" hide-disabled-hours></vue-timepicker>
               <span> a </span>
-                  <vue-timepicker :minute-interval="1" v-model="fi" :hour-range="[[8, 13],[15, 19]]"></vue-timepicker> 
+                  <vue-timepicker :minute-interval="1" v-model="fi" :hour-range="[[8, 14],[15, 20]]"></vue-timepicker> 
               </div>
             <div :id="'upload'+this._uid" class="js-upload uk-placeholder uk-text-center">
                 <div>
