@@ -98,7 +98,7 @@
                     <option v-for="(user,key) in users" :key="key" :value="user.name">{{user.name}}</option>
                 </select>
           </div>
-          <div class="uk-form-controls">
+          <div class="uk-form-controls" style="margin-top: 10px;">
             <label for="recipient-contacte" class="uk-form-label">Contacte:</label>
             <input type="text" class="uk-input" id="recipient-contacte" v-model="editant['contacte']">
           </div>
@@ -114,6 +114,22 @@
             <label for="recipient-ob" class="uk-form-label">Observacions:</label>
             <textarea type="text" class="uk-input" rows="2" id="recipient-ob" v-model="editant['Observacions']">
             </textarea>
+          </div>
+          <div class="uk-form-controls uk-text-center">
+            <div class="uk-column-1-3">
+<div>
+            <label for="recipient-ob" class="uk-form-label">2anys:</label>
+            <input type="checkbox" class="uk-checkbox" rows="2" id="recipient-ob" v-model="editant['2anys']"/>
+</div>
+<div>
+            <label for="recipient-ob22" class="uk-form-label">PROA:</label>
+            <input type="checkbox" class="uk-checkbox" rows="2" id="recipient-ob" v-model="editant['PROA']"/>
+</div>
+<div>
+            <label for="recipient-ob3" class="uk-form-label">UECO:</label>
+            <input type="checkbox" class="uk-checkbox" rows="2" id="recipient-ob3" v-model="editant['UECO']"/>
+</div>
+            </div>
           </div>
           <div class="uk-text-center uk-margin">
               <a :href="url" target="_blank" class="uk-margin uk-h4">Informació del centre</a>
