@@ -83,6 +83,9 @@ Route::get('/dia_tot/{dia}/{mati}', 'UserController@dia_tot')->name('dia_tot')->
 Route::get('/guardia/totes/{mes}/{any}', 'guardiaController@get_data_index2')->name('guardia_totes')->middleware('auth');
 Route::get('/guardia/totes_les_guardies', 'guardiaController@get_numero_de_guardies')->name('guardia_totals')->middleware('auth');
 Route::get('/tots_els_dies_mes/{any}/{mes}', 'UserController@tots_els_dies_mes')->name('tots_els_dies_mes')->middleware('can:esAdmin');
+Route::get('/guardia/entre_setmana/{mes}/{any}', 'guardiaController@entre_setmana')->name('guardia_entresetmana')->middleware('auth');
+Route::get('/guardia/vesprades/{mes}/{any}', 'guardiaController@vesprades')->name('guardia_vesprades')->middleware('auth');
+Route::get('/guardia/divendres/{mes}/{any}', 'guardiaController@divendres')->name('guardia_divendres')->middleware('auth');
 
 
 

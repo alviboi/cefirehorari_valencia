@@ -178,15 +178,35 @@ class guardiaController extends Controller
             'link' => $link2
         ];
 
-
-        $emailJob2 = (new SendGuardiaBorrarMail($guardia->user['email'], $datos2))->delay(Carbon::now()->addSeconds(120));
-        dispatch($emailJob2);
-
+        #################################
+        #$emailJob2 = (new SendGuardiaBorrarMail($guardia->user['email'], $datos2))->delay(Carbon::now()->addSeconds(120));
+        #dispatch($emailJob2);
+        #################################
         //Mail::to($guardia->user['email'])->send(new EliminarGuardia($datos2));
 
 
 
         $guardia->delete();
+
+    }
+
+    public function entre_setmana ($mes, $any) {
+
+        $data = new Date();
+        
+
+    }
+
+    public function vesprades ($mes, $any) {
+
+        
+
+    }
+
+
+    public function divendres ($mes, $any) {
+
+        
 
     }
 

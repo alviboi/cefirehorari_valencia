@@ -5,9 +5,13 @@
             <div>
                 <h2>Afegix guàrdies</h2>
             </div>
-            <div>
-                <button class="uk-button uk-button-default" @click="change_height">Nombre de guàrdies</button>
-            </div>            
+            <div class="uk-button-group" style="margin-bottom: 10px;">
+                <button class="uk-button uk-button-default" @click="change_height">Total</button>
+                <!-- <button class="uk-button uk-button-secondary" @click="entre_setmana" title="Afegix guàrdies els dies entre setmana" uk-tooltip >Setmana</button>
+                <button class="uk-button uk-button-secondary"  title="Afegix guàrdies de divendres" uk-tooltip >Divendres</button>
+                <button class="uk-button uk-button-secondary"  title="Afegix guàrdies de vesprades" uk-tooltip >Vesprades</button>
+             -->
+            </div>         
         </div>
         <div>
             <collapse-transition dimension="height">
@@ -72,7 +76,7 @@
                 <input type="radio" id="vesprada" value="v" v-model="mati_radio">
                 <label for="vesprada">Vesprada</label>
                 </div>
-                <div v-for="(user, key) in users" class="assessor_nom" :key="key" :id="user.id" data-uk-tooltip="pos: left; animation: true; offset: 12;" :title="user.name" draggable="true" @drag="comenca_drag">{{user.name}}</div>
+                <div v-for="(user, key) in users" class="assessor_nom" :key="key" :id="user.id" data-uk-tooltip="pos: left; animation: true; offset: 12;" :title="user.name" draggable="true" @drag="comenca_drag"><span v-if="mati_radio=='v'" class="uk-badge">{{user.diaguardia}}</span>{{user.name}}</div>
             </div>
         </div>
     </div>
@@ -147,11 +151,26 @@ export default {
             })
         },
 
+        entre_setmana() {
+            var result = []
+            let any=this.dia.getFullYear();
+            let mes=this.dia.getMonth();
+            axios.get("guardia/entre_setmana/"+(mes+1)+"/"+any)
+            .then(res => {
+                console.log(res);
+                this.emplena_calendari_guardies(res.data)
+            })
+            .catch(err => {
+                console.error(err);
+            });
+        },
+
         agafa_users(){
             axios.get("user")
             .then(res => {
                 console.log(res);
-                this.users=res.data;
+                const result = res.data.filter((a) => a.Perfil < 2);
+                this.users=result;
             })
             .catch(err => {
                 console.error(err);
