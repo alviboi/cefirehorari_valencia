@@ -18,7 +18,7 @@ class centresController extends Controller
         $centres=centres::get()->values();
         $ret=array();
         foreach ($centres as $el) {
-            $item=array("id" => $el->id,"assessor" => $el->user['name'],"nom" => $el->nom,"codi"=>$el->codi,"situacio"=>$el->situacio,"CP"=>$el->CP,"ciutat"=>$el->ciutat,"contacte"=>$el->contacte,"mail_contacte"=>$el->mail_contacte,"tlf_contacte"=>$el->tlf_contacte,"Observacions"=>$el->Observacions,"2anys"=>$el['2anys'],"PROA"=>$el->PROA,"UECO"=>$el->UECO);
+            $item=array("id" => $el->id,"assessor" => $el->user['name'],"nom" => $el->nom,"codi"=>$el->codi,"situacio"=>$el->situacio,"CP"=>$el->CP,"ciutat"=>$el->ciutat,"contacte"=>$el->contacte,"mail_contacte"=>$el->mail_contacte,"tlf_contacte"=>$el->tlf_contacte,"Observacions"=>$el->Observacions,"2anys"=>$el['2anys'],"PROA"=>$el->PROA,"UECO"=>$el->UECO,"inspector"=>$el->inspector,"correuinspector"=>$el->correuinspector);
             array_push($ret, $item);
         }
         return $ret;
@@ -83,6 +83,8 @@ class centresController extends Controller
             $centre['2anys'] = $request['2anys'];
             $centre->PROA = $request->PROA;
             $centre->UECO = $request->UECO;
+            $centre->inspector = $request->inspector;
+            $centre->correuinspector = $request->correuinspector;
             $centre->save();
             return $centre;
         } else {

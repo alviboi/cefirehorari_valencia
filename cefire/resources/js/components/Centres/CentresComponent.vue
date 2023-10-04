@@ -110,6 +110,14 @@
             <label for="recipient-tlf" class="uk-form-label">Tlf contacte:</label>
             <input type="number" class="uk-input" id="recipient-tlf" v-model="editant['tlf_contacte']">
           </div>
+                    <div class="uk-form-controls">
+            <label for="recipient-tlf" class="uk-form-label">Inspector:</label>
+            <input type="text" class="uk-input" id="recipient-tlf" v-model="editant['inspector']">
+          </div>
+                    <div class="uk-form-controls">
+            <label for="recipient-tlf" class="uk-form-label">Contacte inspector:</label>
+            <input type="text" class="uk-input" id="recipient-tlf" v-model="editant['correuinspector']">
+          </div>
           <div class="uk-form-controls">
             <label for="recipient-ob" class="uk-form-label">Observacions:</label>
             <textarea type="text" class="uk-input" rows="2" id="recipient-ob" v-model="editant['Observacions']">
@@ -164,9 +172,9 @@ export default {
             pagina: 1,
             pagines: [],
             ordenaKey: [],
-            ordena: {"id":1,"assessor":1,"nom":1,"codi":1,"situacio":1,"CP":1,"ciutat":1,"contacte":1,"mail_contacte":1,"tlf_contacte":1,"Observacions":1},
+            ordena: {"id":1,"assessor":1,"nom":1,"codi":1,"situacio":1,"ciutat":1,"contacte":1,"mail_contacte":1,"tlf_contacte":1,"inspector":1,"correuinspector":1},
             busqueda: '',
-            columnes: ["id","assessor","nom","codi","situacio","CP","ciutat","contacte","mail_contacte","tlf_contacte","Observacions"],
+            columnes: ["id","assessor","nom","codi","Sit.","ciutat","contacte","mail_contacte","tlf_contacte","inspector","correuinspector"],
             datos: [],
             editable_c: true
         }
