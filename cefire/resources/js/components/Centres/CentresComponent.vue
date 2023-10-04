@@ -21,6 +21,9 @@
         <th v-if="editable">
             Edita
         </th>
+        <th v-if="editable">
+            Insp.
+        </th>
       </tr>
     </thead>
 
@@ -33,8 +36,12 @@
         <td v-if="editable">
             <button @click="edita_centre(entry)" class="boto_edita"><i class="fas fa-edit"></i></button>
         </td>
+        <td v-if="editable">
+            <button @click="inspector_contacte(entry)" class="boto_edita"><i class="fas fa-address-book"></i></button>
+        </td>
       </tr>
     </tbody>
+
 
 
 
@@ -79,7 +86,7 @@
           </div>
           <div class="uk-form-controls">
             <label for="recipient-situacio" class="uk-form-label">Situació:</label>
-            <select type="text" class="uk-select" id="recipient-xituacio" v-model="editant['situacio']">
+            <select type="text" class="uk-select" id="recipient-situacio" v-model="editant['situacio']">
                 <option>PUB.</option>
                 <option>CON.</option>
             </select>
@@ -187,6 +194,9 @@ export default {
         url () {
             return "http://www.ceice.gva.es/abc/i_guiadecentros/es/centro.asp?codi="+this.editant['codi'];
         },
+        url2 () {
+
+        },
         // Mostra les dades filtrades quan es filtres
         dadesFiltrades() {
             var ordenaKey = this.ordenaKey
@@ -221,6 +231,11 @@ export default {
         }
     },
     methods: {
+        inspector_contacte(b){
+            var a = b['inspector'].split(" ");
+             window.open("https://www.gva.es/es/inicio/atencion_ciudadano/buscadores/personal?_es_gva_es_siac_portlet_SiacPersonasPortlet_nombre="+a.at(-3)+"&_es_gva_es_siac_portlet_SiacPersonasPortlet_apellido1="+a.at(-2)+"&_es_gva_es_siac_portlet_SiacPersonasPortlet_apellido2="+a.at(-1)); 
+            
+        },
         // Agafa usuaris de la base de dades
         agafa_users(){
             axios.get("user")
