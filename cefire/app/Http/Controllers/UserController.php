@@ -807,7 +807,7 @@ class UserController extends Controller
                     $m1 = ($end_a -  $start_a)/60;
                     $m2 = ($end_b - $start_b)/60;
 
-                    array_push($overlapp, ["Dia: ". $ranges[$i]['data'] ." de ".$ranges[$i]['inici'] ." - " .$ranges[$i]['fi'] ." es solapa amb " .$ranges[$j]['inici'] ." - " .$ranges[$j]['fi'],($m1>$m2)? $m2:$m2]);
+                    array_push($overlapp, ["Dia: ". $ranges[$i]['data'] ." de ".$ranges[$i]['inici'] ." - " .$ranges[$i]['fi'] ." es solapa amb " .$ranges[$j]['inici'] ." - " .$ranges[$j]['fi'],($m1>$m2)? $m2:$m1]);
                     break;
                 }
                 
@@ -872,7 +872,7 @@ function calcula_deutes_mes_usuari($user_id, $fi_opt = null)
         $este = array();
         //$a = array();
 
-        $data_hui = date('Y-m-d');
+        //$data_hui = date('Y-m-d');
         $any = date('Y');
 
         $total_mes = 0;
@@ -887,7 +887,7 @@ function calcula_deutes_mes_usuari($user_id, $fi_opt = null)
                 $total_mes += 540;
             } else {
                 if (($usuari->guardia()->where('data','=',$value)->count()>0) && ($this->getWeekday($value)==5)){
-                    $total_mes += 360;
+                    $total_mes += 300; //Seria 360 però com no fitxem per temps, cal deixar-ho en 300
                 } else {
                     $total_mes += 300;
                 }

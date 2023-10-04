@@ -100,6 +100,7 @@ class DeutesmesController extends Controller
             $este = $user_controller->calcula_deutes_mes_usuari($value->id);
             //Tant positiu com negatiu
             $this->afegix_deutes_mes($value->id, $este['diferència']-$este['solapats']);
+            //$este['diferència']-
             // if ($este['diferència'] < 0) {
             //     $this->afegix_deutes_mes($value->id, $este['diferència']);
             // } else {
