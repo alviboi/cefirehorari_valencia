@@ -616,6 +616,9 @@ export default {
           } else {
             this[desti] = [res.data];
           }
+          if (res.data['msg'] !== null){
+              this.$toast.error(res.data['msg']);
+          }
         })
         .catch((err) => {
           console.error(err);

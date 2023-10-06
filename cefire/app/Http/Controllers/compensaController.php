@@ -99,8 +99,18 @@ class compensaController extends Controller
 
         $duration = $this->calcula_diferencia($request->inici, $request->fi);
         $calcul = ($borsahores->minuts) - $duration;
-        if ($calcul < 0) {
-            abort(403, "No tens prou minuts en la borsa d'hores");
+        if ($calcul < 0 && $calcul > -540) {
+            $borsahores->minuts = $calcul;
+            $dat->save();
+
+            $borsahores->save();
+
+            $a = $dat->toArray();
+            $a['msg'] = "Se t'estan aplicant minut de cortesia fins que es regularitze la borsa a final de mes.\n Comprova que es corregix a principi de mes.";
+            return $a;
+        } elseif ($calcul < -540) {
+            abort(403, "Ja no et queden minuts de cortesia. Parla amb la direcció del CEFIRE");
+
         }
         $borsahores->minuts = $calcul;
         $dat->save();
