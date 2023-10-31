@@ -637,6 +637,16 @@ class UserController extends Controller
         $este['curs'] = intval($value->curs()->select(DB::raw('SUM(TIME_TO_SEC(TIMEDIFF(fi,inici))/60) as total'))->whereBetween('data', [$inici, $fi])->first()['total']);
         $este['visita'] = intval($value->visita()->select(DB::raw('SUM(TIME_TO_SEC(TIMEDIFF(fi,inici))/60) as total'))->whereBetween('data', [$inici, $fi])->first()['total']);
 
+        $curs_extra = intval($value->curs()->select(DB::raw('SUM(TIME_TO_SEC(TIMEDIFF(fi,inici))/60) as total'))->whereRaw('weekday(data) = 5 and year(data) = ? and month(data)=?',[$any,$mes])->first()['total']);
+        $visita_extra = intval($value->visita()->select(DB::raw('SUM(TIME_TO_SEC(TIMEDIFF(fi,inici))/60) as total'))->whereRaw('weekday(data) = 5 and year(data) = ? and month(data)=?',[$any,$mes])->first()['total']);
+        $curs_extra2 = intval($value->curs()->select(DB::raw('SUM(TIME_TO_SEC(TIMEDIFF(fi,inici))/60) as total'))->whereRaw('weekday(data) = 4 and year(data) = ? and month(data)=? and inici>="15:00:00"',[$any,$mes])->first()['total']);
+        $visita_extra2 = intval($value->visita()->select(DB::raw('SUM(TIME_TO_SEC(TIMEDIFF(fi,inici))/60) as total'))->whereRaw('weekday(data) = 4 and year(data) = ? and month(data)=? and inici>="15:00:00"',[$any,$mes])->first()['total']);
+
+
+
+        $este['curs']=$este['curs']+$curs_extra+$curs_extra2;
+        $este['visita']=$este['visita']+$visita_extra+$visita_extra2;
+
         $deutesmes = $value->deutesmes()->first();
         if ($deutesmes) {
             $a = $deutesmes->minuts;
@@ -879,7 +889,7 @@ function calcula_deutes_mes_usuari($user_id, $fi_opt = null)
         $dia_guardia_user = $usuari->diaguardia;
 
         
-
+        //El que deuria de fer
         foreach ($dates as $key => $value) {
             $dia_setmana = $this->getWeekday($value);
             # code...
