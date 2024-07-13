@@ -155,11 +155,11 @@
               placeholder="Curs a realitzar"
               required
             />
-            <div class="uk-margin">                        
+            <div class="uk-margin">
               <label>Hora: </label>
                   <vue-timepicker :minute-interval="5" v-model="inici" :hour-range="[[8, 23]]" hide-disabled-hours></vue-timepicker>
               <span> a </span>
-                  <vue-timepicker :minute-interval="5" v-model="fi" :hour-range="[[8, 23]]" hide-disabled-hours></vue-timepicker> 
+                  <vue-timepicker :minute-interval="5" v-model="fi" :hour-range="[[8, 23]]" hide-disabled-hours></vue-timepicker>
               </div>
           </div>
         </fieldset>
@@ -192,11 +192,11 @@
               type="text"
               placeholder="Motiu pel que compenses"
             />
-            <div class="uk-margin">                        
+            <div class="uk-margin">
               <label>Hora: </label>
                   <vue-timepicker :minute-interval="5" v-model="inici" :hour-range="[[8, 23]]" hide-disabled-hours></vue-timepicker>
               <span> a </span>
-                  <vue-timepicker :minute-interval="5" v-model="fi" :hour-range="[[8, 23]]" hide-disabled-hours></vue-timepicker> 
+                  <vue-timepicker :minute-interval="5" v-model="fi" :hour-range="[[8, 23]]" hide-disabled-hours></vue-timepicker>
               </div>
           </div>
         </fieldset>
@@ -230,11 +230,11 @@
               placeholder="Visita a realitzar"
               required
             />
-            <div class="uk-margin">                        
+            <div class="uk-margin">
               <label>Hora: </label>
                   <vue-timepicker :minute-interval="5" v-model="inici" :hour-range="[[8, 23]]" hide-disabled-hours></vue-timepicker>
               <span> a </span>
-                  <vue-timepicker :minute-interval="5" v-model="fi" :hour-range="[[8, 23]]" hide-disabled-hours></vue-timepicker> 
+                  <vue-timepicker :minute-interval="5" v-model="fi" :hour-range="[[8, 23]]" hide-disabled-hours></vue-timepicker>
           </div>
           </div>
         </fieldset>
@@ -266,11 +266,11 @@
               type="text"
               placeholder="Motiu del permís"
             />
-            <div class="uk-margin">                        
+            <div class="uk-margin">
               <label>Hora: </label>
                   <vue-timepicker :minute-interval="1" v-model="inici" :hour-range="[[8, 14],[15, 20]]" hide-disabled-hours></vue-timepicker>
               <span> a </span>
-                  <vue-timepicker :minute-interval="1" v-model="fi" :hour-range="[[8, 14],[15, 20]]"></vue-timepicker> 
+                  <vue-timepicker :minute-interval="1" v-model="fi" :hour-range="[[8, 14],[15, 20]]"></vue-timepicker>
               </div>
             <div :id="'upload'+this._uid" class="js-upload uk-placeholder uk-text-center">
                 <div>
@@ -352,7 +352,7 @@ export default {
   },
   props: ['mati','data'],
     components: {
-        VueTimepicker        
+        VueTimepicker
   },
   methods: {
     // Mètode per a descarregar el arxiu, es reb com un objecte binari de grans dimensions (blob) per a reconstrueix i permet descarregar-se. D'aquesta
@@ -487,7 +487,7 @@ export default {
     // this.get_de_bd();
     // this.get_de_bd();
     // this.get_de_bd();
-          
+
         })
         .catch((err) => {
           console.error(err);
@@ -496,17 +496,28 @@ export default {
 
     // Afegix element cefire al dia
     afegix_cefire(){
-        //alert(this.data);
+      //alert(this.data);
       let inici,fi;
       var desti='cefire';
 
       if (this.mati=='m'){
         inici="9:00:00";
-        fi="14:00:00";
+        if (this.data.getMonth() == 6) {
+            fi="13:00:00";
+        } else {
+            fi="14:00:00";
+        }
+
       } else {
         inici="16:00:00";
         fi="20:00:00";
       }
+
+      //console.log(this.data.getMonth());
+
+
+
+
       var id=0;
       if (this.cefire.length === undefined || this.cefire.length == 0){
           id=0;
