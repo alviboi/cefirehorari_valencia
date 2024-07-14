@@ -917,4 +917,17 @@ class UserController extends Controller
         $user->save();
         return "Dia guardat";
     }
+
+    public function borra_borsa_hores() {
+        $usuaris = User::all();
+        $ret = array();
+
+        foreach ($usuaris as $key => $value) {
+            # code...
+            $value->deutesmes()->truncate();
+        }
+
+        return "Borsa d'hores eliminada";
+    }
+
 }

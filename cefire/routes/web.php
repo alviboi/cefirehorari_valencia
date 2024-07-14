@@ -106,6 +106,8 @@ Route::post('compensacions_no_validades','compensaController@compensacionsnovali
 Route::post('validacompensacio','compensaController@validacompensacio')->middleware('can:esAdmin');
 Route::post('solapaments','UserController@detecta_solapaments')->middleware('can:esAdmin');
 Route::post('solapaments_tots','UserController@detecta_solapaments_tots')->middleware('can:esAdmin');
+Route::post('borra_borsa_hores','UserController@borra_borsa_hores')->middleware('can:esAdmin');
+
 
 Route::post('cefire_fitxa_oblit', 'cefireController@cefire_fitxa_oblit')->middleware('can:esAdmin'); //NOU
 Route::get('/usuaris_oblit_fitxatge', 'cefireController@usuaris_oblit_fitxatge')->name('usuaris_oblit_fitxatge')->middleware('can:esAdmin');
