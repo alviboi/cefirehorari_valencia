@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
     ];
 
     /**
-     * Define the application's command schedule.
+     * Define the application's command schedule. El mes de agosto y septiembre no se calcula el mes de deuda.
      *
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
@@ -25,7 +25,16 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command("calcula:mesdeute")->monthly(); //Run the task on the first day of every month at 00:00
+        $schedule->command("calcula:mesdeute")->monthly()->when(function () {
+            $mes = date('m');
+            if ($mes == 8 || $mes == 9) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    );
+         //Run the task on the first day of every month at 00:00
         //$schedule->command("calcula:mesdeute")->everyMinute(); //Run the task on the first day of every month at 00:00
 
     }
