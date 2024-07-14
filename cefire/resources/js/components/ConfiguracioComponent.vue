@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="uk-margin">
         <div class="uk-child-width-1-2@s uk-grid-match" uk-grid>
             <div>
                 <div class="uk-card uk-card-secondary uk-card-hover uk-card-body">
@@ -100,7 +100,7 @@
             </div>
             <!-- reset tabla -->
             <div>
-                <div class="uk-card uk-card-secondary uk-card-hover uk-card-body">
+                <div class="uk-card uk-card-default uk-card-hover uk-card-body">
                     <h3 class="uk-card-title">Reinicia taula de la borsa d'hores</h3>
                     Borra tots els minuts de la borsa de tots els participants i deixa el contador a 0.
                     <div class="uk-margin">
