@@ -174,8 +174,6 @@ class UserController extends Controller
                 ldap_close($conn);
                 return "El servidor no està ben configurat. Revisa la configuració";
             }
-
-
         }
     }
 
@@ -239,8 +237,6 @@ class UserController extends Controller
         } else {
             abort(403, "No tens permís per a realitzar aquesta acció");
         }
-
-
     }
 
 
@@ -265,11 +261,9 @@ class UserController extends Controller
         foreach ($cefire as $value) {
             $ret1 = array("id" => $value->id, "user_id" => $value->user_id, "inici" => $value->inici->format('H:i:s'), "fi" => $value->fi->format('H:i:s'));
             array_push($ret2, $ret1);
-
         }
 
         return $ret2;
-
     }
     /**
      * dia_guardia
@@ -563,9 +557,6 @@ class UserController extends Controller
             'visita' => $visita
         ];
         return $ret;
-
-
-
     }
 
     public function getWeekday($date)
@@ -599,19 +590,21 @@ class UserController extends Controller
 
         $total_mes = 0;
         foreach ($dates as $key => $value) {
-            $dia_setmana = $this->getWeekday($value);
-            # code...
-            if ($dia_setmana == $dia_guardia_user) {
-                $total_mes += 540;
+            if ($mes == 7) {
+                $total_mes += 240;
             } else {
-                if (($usuari->guardia()->where('data','=',$value)->count()>0) && ($this->getWeekday($value)==5)){
-                    $total_mes += 360;
+                $dia_setmana = $this->getWeekday($value);
+                # code...
+                if ($dia_setmana == $dia_guardia_user) {
+                    $total_mes += 540;
                 } else {
-                    $total_mes += 300;
+                    if (($usuari->guardia()->where('data', '=', $value)->count() > 0) && ($this->getWeekday($value) == 5)) {
+                        $total_mes += 360;
+                    } else {
+                        $total_mes += 300;
+                    }
                 }
             }
-
-
         }
 
 
@@ -622,7 +615,6 @@ class UserController extends Controller
 
 
         return $este;
-
     }
 
     function agafa_dades_suma($value, $mes, $any, $inici, $fi, $total_mes, $total_dies)
@@ -637,15 +629,15 @@ class UserController extends Controller
         $este['curs'] = intval($value->curs()->select(DB::raw('SUM(TIME_TO_SEC(TIMEDIFF(fi,inici))/60) as total'))->whereBetween('data', [$inici, $fi])->first()['total']);
         $este['visita'] = intval($value->visita()->select(DB::raw('SUM(TIME_TO_SEC(TIMEDIFF(fi,inici))/60) as total'))->whereBetween('data', [$inici, $fi])->first()['total']);
 
-        $curs_extra = intval($value->curs()->select(DB::raw('SUM(TIME_TO_SEC(TIMEDIFF(fi,inici))/60) as total'))->whereRaw('weekday(data) = 5 and year(data) = ? and month(data)=?',[$any,$mes])->first()['total']);
-        $visita_extra = intval($value->visita()->select(DB::raw('SUM(TIME_TO_SEC(TIMEDIFF(fi,inici))/60) as total'))->whereRaw('weekday(data) = 5 and year(data) = ? and month(data)=?',[$any,$mes])->first()['total']);
-        $curs_extra2 = intval($value->curs()->select(DB::raw('SUM(TIME_TO_SEC(TIMEDIFF(fi,inici))/60) as total'))->whereRaw('weekday(data) = 4 and year(data) = ? and month(data)=? and inici>="15:00:00"',[$any,$mes])->first()['total']);
-        $visita_extra2 = intval($value->visita()->select(DB::raw('SUM(TIME_TO_SEC(TIMEDIFF(fi,inici))/60) as total'))->whereRaw('weekday(data) = 4 and year(data) = ? and month(data)=? and inici>="15:00:00"',[$any,$mes])->first()['total']);
+        $curs_extra = intval($value->curs()->select(DB::raw('SUM(TIME_TO_SEC(TIMEDIFF(fi,inici))/60) as total'))->whereRaw('weekday(data) = 5 and year(data) = ? and month(data)=?', [$any, $mes])->first()['total']);
+        $visita_extra = intval($value->visita()->select(DB::raw('SUM(TIME_TO_SEC(TIMEDIFF(fi,inici))/60) as total'))->whereRaw('weekday(data) = 5 and year(data) = ? and month(data)=?', [$any, $mes])->first()['total']);
+        $curs_extra2 = intval($value->curs()->select(DB::raw('SUM(TIME_TO_SEC(TIMEDIFF(fi,inici))/60) as total'))->whereRaw('weekday(data) = 4 and year(data) = ? and month(data)=? and inici>="15:00:00"', [$any, $mes])->first()['total']);
+        $visita_extra2 = intval($value->visita()->select(DB::raw('SUM(TIME_TO_SEC(TIMEDIFF(fi,inici))/60) as total'))->whereRaw('weekday(data) = 4 and year(data) = ? and month(data)=? and inici>="15:00:00"', [$any, $mes])->first()['total']);
 
 
 
-        $este['curs']=$este['curs']+$curs_extra+$curs_extra2;
-        $este['visita']=$este['visita']+$visita_extra+$visita_extra2;
+        $este['curs'] = $este['curs'] + $curs_extra + $curs_extra2;
+        $este['visita'] = $este['visita'] + $visita_extra + $visita_extra2;
 
         $deutesmes = $value->deutesmes()->first();
         if ($deutesmes) {
@@ -656,7 +648,7 @@ class UserController extends Controller
         }
 
 
-        $este['total'] = $este['fitxatge'] + $este['permís'] + $este['compensa'] + $este['visita']/*Es suma perquè les està gaudint d'un excés que ha fet altre mes*/+ $este['curs'];
+        $este['total'] = $este['fitxatge'] + $este['permís'] + $este['compensa'] + $este['visita']/*Es suma perquè les està gaudint d'un excés que ha fet altre mes*/ + $este['curs'];
 
 
         $este['diferència'] = ($este['total']) - $total_mes; //El total dels dies del mes multiplicat per 60
@@ -671,7 +663,7 @@ class UserController extends Controller
         //VacancesController
 
 
-        $inici = date($any . "-" .$mes . "-01");
+        $inici = date($any . "-" . $mes . "-01");
         $fi = date("Y-m-t", strtotime($inici));
 
         $dates = $vacances->getWorkingDays($inici, $fi);
@@ -688,7 +680,7 @@ class UserController extends Controller
         $este = array();
         $a = array();
 
-        $any = date('Y');        
+        $any = date('Y');
         $vacances = new VacancesOficialsController();
 
 
@@ -703,8 +695,8 @@ class UserController extends Controller
                 $dia_setmana = $this->getWeekday($value2);
                 if ($dia_setmana == $dia_guardia_user) {
                     $total_mes += 540;
-                } else {        
-                    if (($value->guardia()->where('data','=',$value2)->count()>0) && ($this->getWeekday($value2)==5)){
+                } else {
+                    if (($value->guardia()->where('data', '=', $value2)->count() > 0) && ($this->getWeekday($value2) == 5)) {
                         $total_mes += 360;
                     } else {
                         $total_mes += 300;
@@ -720,11 +712,11 @@ class UserController extends Controller
 
 
         return $a;
-
     }
 
-    function detecta_solapaments(Request $valors) {
-        $usuari = User::where('id',"=",$valors->id)->first();
+    function detecta_solapaments(Request $valors)
+    {
+        $usuari = User::where('id', "=", $valors->id)->first();
         $vacances = new VacancesOficialsController();
         $inici = date($valors->any . "-" . $valors->mes . "-01");
         $fi = date("Y-m-t", strtotime($inici));
@@ -735,105 +727,98 @@ class UserController extends Controller
         $sobrelapat = array();
         foreach ($dates as $key => $value) {
             # code...
-            $num['fitxatge'] = $usuari->cefire()->where('data','=',$value)->count();
-            $num['permís'] = $usuari->permis()->where('data','=',$value)->count();
-            $num['compensa'] = $usuari->compensa()->where('data','=',$value)->count();
-            $num['curs'] = $usuari->curs()->where('data','=',$value)->count();
-            $num['visita'] = $usuari->visita()->where('data','=',$value)->count();
-            if (($num['fitxatge'] + $num['permís'] + $num['compensa'] + $num['curs'] + $num['visita']) >= 2){
+            $num['fitxatge'] = $usuari->cefire()->where('data', '=', $value)->count();
+            $num['permís'] = $usuari->permis()->where('data', '=', $value)->count();
+            $num['compensa'] = $usuari->compensa()->where('data', '=', $value)->count();
+            $num['curs'] = $usuari->curs()->where('data', '=', $value)->count();
+            $num['visita'] = $usuari->visita()->where('data', '=', $value)->count();
+            if (($num['fitxatge'] + $num['permís'] + $num['compensa'] + $num['curs'] + $num['visita']) >= 2) {
                 //return ($num['fitxatge'] + $num['permís'] + $num['compensa'] + $num['curs'] + $num['visita']);
                 $compara = [];
                 $este = [];
-                $este['visita'] = $usuari->visita()->where('data','=',$value)->get();
-                if (!$este['visita']->isEmpty()){
+                $este['visita'] = $usuari->visita()->where('data', '=', $value)->get();
+                if (!$este['visita']->isEmpty()) {
                     foreach ($este['visita'] as $key1 => $value1) {
                         # code...
-                        array_push($compara,$value1->toArray());
+                        array_push($compara, $value1->toArray());
                     }
                 }
 
-                $este['fitxatge'] = $usuari->cefire()->where('data','=',$value)->get();
-                if (!$este['fitxatge']->isEmpty()){
+                $este['fitxatge'] = $usuari->cefire()->where('data', '=', $value)->get();
+                if (!$este['fitxatge']->isEmpty()) {
                     foreach ($este['fitxatge'] as $key2 => $value2) {
                         # code...
-                        array_push($compara,$value2->toArray());
+                        array_push($compara, $value2->toArray());
                     }
                 }
 
-                $este['permís'] = $usuari->permis()->where('data','=',$value)->get();
-                if (!$este['permís']->isEmpty()){
+                $este['permís'] = $usuari->permis()->where('data', '=', $value)->get();
+                if (!$este['permís']->isEmpty()) {
                     foreach ($este['permís'] as $key3 => $value3) {
                         # code...
-                        array_push($compara,$value3->toArray());
+                        array_push($compara, $value3->toArray());
                     }
                 }
 
-                $este['compensa'] = $usuari->compensa()->where('data','=',$value)->get();
-                if (!$este['compensa']->isEmpty()){
+                $este['compensa'] = $usuari->compensa()->where('data', '=', $value)->get();
+                if (!$este['compensa']->isEmpty()) {
                     foreach ($este['compensa'] as $key4 => $value4) {
                         # code...
-                        array_push($compara,$value4->toArray());
+                        array_push($compara, $value4->toArray());
                     }
                 }
 
-                $este['curs'] = $usuari->curs()->where('data','=',$value)->get();
-                if (!$este['curs']->isEmpty()){
+                $este['curs'] = $usuari->curs()->where('data', '=', $value)->get();
+                if (!$este['curs']->isEmpty()) {
                     foreach ($este['curs'] as $key => $value) {
                         # code...
-                        array_push($compara,$value->toArray());
+                        array_push($compara, $value->toArray());
                     }
                 }
 
                 //return $compara;
                 $sobre = $this->checkOverlapInDateRanges($compara);
-                if (sizeof($sobre)>0)
-                array_push($sobrelapat,$sobre);
-                
-                
+                if (sizeof($sobre) > 0)
+                    array_push($sobrelapat, $sobre);
             }
-
-            
-    
         }
         return $sobrelapat;
-
     }
 
-    function checkOverlapInDateRanges($ranges) {
-    
+    function checkOverlapInDateRanges($ranges)
+    {
+
         $overlapp = [];
-        
-        for($i = 0; $i < count($ranges); $i++){
-            
-            for($j= ($i + 1); $j < count($ranges); $j++){
-    
+
+        for ($i = 0; $i < count($ranges); $i++) {
+
+            for ($j = ($i + 1); $j < count($ranges); $j++) {
+
                 $start_a = strtotime($ranges[$i]['inici']);
                 $end_a = strtotime($ranges[$i]['fi']);
-    
+
                 $start_b = strtotime($ranges[$j]['inici']);
                 $end_b = strtotime($ranges[$j]['fi']);
-    
-                if( $start_b <= $end_a && $end_b >= $start_a ) {
-                    $m1 = ($end_a -  $start_a)/60;
-                    $m2 = ($end_b - $start_b)/60;
 
-                    array_push($overlapp, ["Dia: ". $ranges[$i]['data'] ." de ".$ranges[$i]['inici'] ." - " .$ranges[$i]['fi'] ." es solapa amb " .$ranges[$j]['inici'] ." - " .$ranges[$j]['fi'],($m1>$m2)? $m2:$m1]);
+                if ($start_b <= $end_a && $end_b >= $start_a) {
+                    $m1 = ($end_a -  $start_a) / 60;
+                    $m2 = ($end_b - $start_b) / 60;
+
+                    array_push($overlapp, ["Dia: " . $ranges[$i]['data'] . " de " . $ranges[$i]['inici'] . " - " . $ranges[$i]['fi'] . " es solapa amb " . $ranges[$j]['inici'] . " - " . $ranges[$j]['fi'], ($m1 > $m2) ? $m2 : $m1]);
                     break;
                 }
-                
             }
-            
         }
-        
+
         return $overlapp;
-        
     }
 
-    function detecta_solapaments_tots(Request $request) {
-        
+    function detecta_solapaments_tots(Request $request)
+    {
+
         $usuaris = User::all();
         $ret = array();
-        
+
         foreach ($usuaris as $key => $value) {
             # code...
             $pet = new Request();
@@ -841,18 +826,17 @@ class UserController extends Controller
             $pet->mes = $request->mes;
             $pet->any = $request->any;
             $aux = $this->detecta_solapaments($pet);
-            if (sizeof($aux)>0){
-                array_push($ret,$value->id);
+            if (sizeof($aux) > 0) {
+                array_push($ret, $value->id);
             }
-            
         }
         return $ret;
     }
-    
 
 
 
-function calcula_deutes_mes_usuari($user_id, $fi_opt = null)
+
+    function calcula_deutes_mes_usuari($user_id, $fi_opt = null)
     {
         //$any, $mes
         $vacances = new VacancesOficialsController();
@@ -888,7 +872,7 @@ function calcula_deutes_mes_usuari($user_id, $fi_opt = null)
         $total_mes = 0;
         $dia_guardia_user = $usuari->diaguardia;
 
-        
+
         //El que deuria de fer
         foreach ($dates as $key => $value) {
             $dia_setmana = $this->getWeekday($value);
@@ -896,13 +880,12 @@ function calcula_deutes_mes_usuari($user_id, $fi_opt = null)
             if ($dia_setmana == $dia_guardia_user) {
                 $total_mes += 540;
             } else {
-                if (($usuari->guardia()->where('data','=',$value)->count()>0) && ($this->getWeekday($value)==5)){
+                if (($usuari->guardia()->where('data', '=', $value)->count() > 0) && ($this->getWeekday($value) == 5)) {
                     $total_mes += 300; //Seria 360 però com no fitxem per temps, cal deixar-ho en 300
                 } else {
                     $total_mes += 300;
                 }
             }
-
         }
 
         $este = $this->agafa_dades_suma($usuari, $mes, $any, $inici, $fi, $total_mes, $total_dies);
@@ -920,20 +903,18 @@ function calcula_deutes_mes_usuari($user_id, $fi_opt = null)
                 # code...
                 $solapats += $value2[1];
             }
-            
         }
 
         $este['solapats'] = $solapats;
 
         return $este;
-
     }
 
-    public function avisdiasetmana(Request $request){
+    public function avisdiasetmana(Request $request)
+    {
         $user = auth()->user();
         $user->diaguardia = $request->diasetmana;
         $user->save();
         return "Dia guardat";
     }
-
 }

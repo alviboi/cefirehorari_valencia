@@ -73,7 +73,7 @@ class cefireController extends Controller
         $data_hui = date('Y-m-d');
         $en4dies = date('Y-m-d', strtotime($data_hui. ' + 4 days'));
         if ($this->aparell == 1){
-            
+
 
 
 
@@ -105,7 +105,7 @@ class cefireController extends Controller
                     // $conta=cefire::where('data','=',$data_hui)->count();
                     // // if (auth()->user()->cefire()->where('data','=',$data_hui)->count()>0 && getWeekday($data_hui)==5){
                     // //     $cef->fi = $hora;
-                    // // } else 
+                    // // } else
                     $a = date($cef->fi);
                     $b = date("14:45:00");
                     $c = date($cef->inici);
@@ -115,15 +115,15 @@ class cefireController extends Controller
                     //if ((auth()->user()->diaguardia == $this->getWeekday($data_hui)) && ($a->diffInMinutes($b)>0) && $cef->fi=="00:00:00") {
                     // if (($a->diffInMinutes($b)>0) && ($c->diffInMinutes($a)>0)){
 
-                    // } else 
+                    // } else
                     if ($a>$b && $c<$d) {
                         $cef->fi = "14:45:00";
                     } else {
                         $cef->fi = $hora;
                     }
-                    
+
                     //$cef->fi = $hora;
-                    
+
                     $cef->save();
                     $broad = array("data" => $cef->data, "nom" => auth()->user()->name, "id" => $cef->id, "inici" => $cef->inici, "fi" => $cef->fi);
                     $ret = array("id"=>$cef->id,"inici" => $cef->inici,"fi" => $cef->fi);
@@ -134,7 +134,7 @@ class cefireController extends Controller
 
             }
         } else {
-            
+
             $hi_ha=cefire::where('user_id','=',auth()->id())->where('data','=',$request->data)->where('inici','=',$request->inici)->first();
             if ($hi_ha) {
                 //abort(403, "Ja has fitxat el dia de hui");
@@ -158,7 +158,7 @@ class cefireController extends Controller
             }
         }
     }
-    
+
 
 
     /**
@@ -239,7 +239,7 @@ class cefireController extends Controller
         // $data_15_oct = date($any."-10-15");
         // $data_15_mai = date($any."-05-15");
         // if ($data_hui >= $data_15_oct || $data_hui <= $data_15_mai) {
-        //     $interval_comp = 27900/60;       
+        //     $interval_comp = 27900/60;
         // } else {
         //     $interval_comp = 26100/60;
         // }
@@ -247,7 +247,7 @@ class cefireController extends Controller
         // if(auth()->user()->reduccio){
         //     $interval_comp = $interval_comp - 60;
         // }
-        
+
 
         $cefires = cefire::where('user_id','=',auth()->id())->orderBy('id', 'desc')->take(5)->get();
         $ret =array();
@@ -255,8 +255,9 @@ class cefireController extends Controller
         foreach ($cefires as $key => $el) {
             # code...
             $st_time    =   strtotime($el->inici);
-           
-            if($st_time > $end_time) {
+
+            $month = date('m', strtotime($el->data));
+            if($st_time > $end_time || $month == 7 ) {
                 $interval_comp = 240;
             } else {
                 $interval_comp = 300;
@@ -289,7 +290,7 @@ class cefireController extends Controller
         if ($data_hui_mes != $data_hui) {
             $deute = new DeutesmesController();
             $deute->afegix_a_mes_anterior($dat->user_id,$duration);
-        } 
+        }
         if ($ok) {
             return "Fitxat correctament";
         } else {
@@ -305,7 +306,7 @@ class cefireController extends Controller
         foreach ($cefires as $el) {
             $da=date("d-m-Y", strtotime($el->data));
             $da2=$dias[date("w", strtotime($el->data))];
-            
+
             $item=array("id"=>$el->id, "name"=>$el->user['name'], "data"=>$da2.", ".$da, "inici"=>$el->inici, "fi"=>$el->inici);
             array_push($ret, $item);
         }
