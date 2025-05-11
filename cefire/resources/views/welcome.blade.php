@@ -6,8 +6,8 @@
                 <div class="uk-container uk-flex-auto uk-position-relative uk-margin uk-margin-large-top uk-margin-large-bottom" data-uk-parallax="y: 0,99; easing:0; opacity:0.0">
                     <div class="uk-width-1-2@s" data-uk-scrollspy="cls: uk-animation-slide-right-medium; target: > *; delay: 150">
                         <h6 class="uk-text-primary uk-margin-small-bottom">Benvingut!</h6>
-                        <h1 class="uk-margin-remove-top">Intranet del CEFIRE de València</h1>
-                        <p class="subtitle-text uk-visible@s">Aquesta pàgina és per a gestionar els horaris del centre del CEFIRE de València. A continuació teniu els enllaços per a accedir als diferents recursos.</p>
+                        <h1 class="uk-margin-remove-top">Intranet del CEFIRE de FP</h1>
+                        <p class="subtitle-text uk-visible@s">Aquesta pàgina és per a gestionar els horaris del centre del CEFIRE de Formació profesional. A continuació teniu els enllaços per a accedir als diferents recursos.</p>
                     </div>
                 </div>
                 <img data-srcset="/img/cef_port.png"
@@ -21,7 +21,7 @@
     <div>
         <div class="buttons2">
                 <div class="container2">
-                    <a href="/consultacentres" class="btn2 effect04" data-sm-link-text="Pàgina consulta de centres" target="_blank"><span class="uk-flex uk-flex-middle"><i class="fa fa-graduation-cap fa-3x" aria-hidden="true"></i> Control de centres</span></a>
+                    <a href="/consultacentres" class="btn2 effect04 disabled" data-sm-link-text="Pàgina consulta de centres" target="_blank" aria-disabled="true"><span class="uk-flex uk-flex-middle"><i class="fa fa-graduation-cap fa-3x" aria-hidden="true"></i> Control de centres</span></a>
                 </div>
             </div>
     </div>
