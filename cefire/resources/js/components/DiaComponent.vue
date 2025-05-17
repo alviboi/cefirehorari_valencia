@@ -501,11 +501,11 @@ export default {
       var desti='cefire';
 
       if (this.mati=='m'){
-        inici="9:00:00";
+        inici="8:30:00";
         if (this.data.getMonth() == 6) {
-            fi="13:00:00";
+            fi="14:30:00"; //Si es juliol es pot canviar la data
         } else {
-            fi="14:00:00";
+            fi="14:30:00";
         }
 
       } else {
