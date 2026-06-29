@@ -2,12 +2,12 @@
     "private": true,
     "scripts": {
         "dev": "npm run development",
-        "development": "mix",
-        "watch": "mix watch",
-        "watch-poll": "mix watch -- --watch-options-poll=1000",
-        "hot": "mix watch --hot",
+        "development": "cross-env NODE_OPTIONS=--no-experimental-require-module mix",
+        "watch": "cross-env NODE_OPTIONS=--no-experimental-require-module mix watch",
+        "watch-poll": "cross-env NODE_OPTIONS=--no-experimental-require-module mix watch -- --watch-options-poll=1000",
+        "hot": "cross-env NODE_OPTIONS=--no-experimental-require-module mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "cross-env NODE_OPTIONS=--no-experimental-require-module mix --production"
     },
     "devDependencies": {
         "axios": "^1.7.2",
