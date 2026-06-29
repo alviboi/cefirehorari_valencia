@@ -4,8 +4,8 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
-require('./home.js');
+import './bootstrap';
+import './home';
 
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
@@ -48,8 +48,8 @@ window.channel = pusher.subscribe('cefire');
 //     });
 //   });
 
-//import Vue from 'vue';
-window.Vue = require('vue').default;
+import Vue from 'vue';
+window.Vue = Vue;
 
 /**
  * The following block of code may be used to automatically register your

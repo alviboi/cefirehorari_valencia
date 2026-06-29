@@ -1,25 +1,18 @@
-window._ = require('lodash');
+import _ from 'lodash';
+import UIkit from 'uikit';
+import Icons from 'uikit/dist/js/uikit-icons';
+import axios from 'axios';
+import Pusher from 'pusher-js';
+import $ from 'jquery';
 
-/**
- * Utilitzarem en algun casos el framework uikit
- */
+window._ = _;
+window.UIkit = UIkit;
+UIkit.use(Icons);
 
-window.UIkit = require("uikit");
-window.Icons = require("uikit/dist/js/uikit-icons");
-
-UIkit.use(window.Icons);
-
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
-
-window.axios = require('axios');
-
+window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-var token = document.head.querySelector('meta[name="csrf-token"]');
+const token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
     window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
@@ -27,45 +20,11 @@ if (token) {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
-
-// window.axios.defaults.headers.common = {
-//     'X-Requested-With': 'XMLHttpRequest',
-//     'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-// };
-
-
 try {
-    window.$ = window.jQuery = require('jquery');
-    window.UIkit = require('uikit');
-    UIkit.use(Icons);
+    window.$ = window.jQuery = $;
 } catch (e) {
-
+    console.error('Error loading jQuery:', e);
 }
 
-/**
- * Hem d'importar la llibreria de pusher per al websocket
- */
-
-import Pusher from "pusher-js"
 Pusher.logToConsole = true;
-
-
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- *
- * NO UTILITZAREM LARAVEL-ECHO JA QUE DONA RESULTATS INESPERATS, RESULTA MÉS CÒMODE CREAR LA PETICIÓ DIRECTAMENT
- *
- */
-
-// import Echo from 'laravel-echo'
-
-// window.Pusher = require('pusher-js');
-
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: process.env.MIX_PUSHER_APP_KEY,
-//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-//     encrypted: true
-// });
+window.Pusher = Pusher;

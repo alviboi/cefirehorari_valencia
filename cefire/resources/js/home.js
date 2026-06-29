@@ -1,4 +1,4 @@
-const { delay } = require("lodash");
+import { delay } from 'lodash';
 
 
 /**
