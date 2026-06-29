@@ -42,5 +42,11 @@
         "vue-uniq-ids": "^1.0.0",
         "vue2-timepicker": "^1.1.6",
         "vuejs-datepicker": "^1.6.2"
+    },
+    "resolutions": {
+        "yargs": "17.7.2"
+    },
+    "overrides": {
+        "yargs": "17.7.2"
     }
 }
